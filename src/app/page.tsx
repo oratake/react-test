@@ -7,6 +7,9 @@ import {
   Group,
   Skeleton,
 } from '@mantine/core';
+import { RiAncientGateFill } from 'react-icons/ri';
+import { IconContext } from 'react-icons';
+
 
 export default function Home() {
   const [opened, { toggle }] = useDisclosure();
@@ -21,8 +24,11 @@ export default function Home() {
       >
         <AppShell.Header>
           <Group h="100%" px="md">
-            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <h1>Zenji -禅師-</h1>
+            <IconContext.Provider value={{ size: '32px' }}>
+              <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+              <RiAncientGateFill />
+              <h1>Zenji -禅師-</h1>
+            </IconContext.Provider>
           </Group>
         </AppShell.Header>
         <AppShell.Navbar p="md">
