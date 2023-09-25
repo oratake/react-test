@@ -17,6 +17,7 @@ import { UrqlProvider, ssrExchange, createClient, cacheExchange, fetchExchange }
 import { registerUrql } from '@urql/next/rsc';
 
 // const { getClient } = registerUrql(client);
+import AddDanka from '@/components/AddDankaButtonAndModal';
 
 const allDankasQueryDocument = gql`
   query allDankasQuery {
@@ -71,6 +72,7 @@ export default function Home() {
         </AppShell.Navbar>
         <AppShell.Main>
           Main
+          <AddDanka />
 
           <UrqlProvider client={client} ssr={ssr}>
             <Suspense>
