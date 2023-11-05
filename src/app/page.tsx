@@ -72,9 +72,8 @@ export default function Home() {
         </AppShell.Navbar>
         <AppShell.Main>
           Main
-          <AddDanka />
-
           <UrqlProvider client={client} ssr={ssr}>
+            <AddDanka />
             <Suspense>
               <TestList />
             </Suspense>
