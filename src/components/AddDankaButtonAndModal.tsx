@@ -6,8 +6,20 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useMutation, gql } from 'urql';
+
+const ADD_DANKA_MUTATAION = gql`
+  mutation AddDankaMutation($input: InitialDankaInput!) {
+    createDanka(input: $input) {
+      last_name_of_family_head
+      first_name_of_family_head
+      email
+    }
+  }
+`;
 
 const AddDanka = () => {
+  const [createDankaResult, createDanka] = useMutation(ADD_DANKA_MUTATAION);
   const [opened, { open, close }] = useDisclosure(false);
 
   const form = useForm({
@@ -21,10 +33,14 @@ const AddDanka = () => {
     },
   });
 
+  const handleCreateDanka = async (values) => {
+    const { data } = await createDanka({ input: values });
+  };
+
   return (
     <>
       <Modal opened={opened} onClose={close} title="檀家追加">
-        <form onSubmit={form.onSubmit((values) => console.log(values))}>
+        <form onSubmit={form.onSubmit((values) => handleCreateDanka(values))}>
           <Group>
             <TextInput
               label="姓"
@@ -46,11 +62,11 @@ const AddDanka = () => {
             登録
           </Button>
         </form>
-      </Modal >
+      </Modal>
 
       <Button onClick={open}>檀家追加</Button>
     </>
   );
-}
+};
 
 export default AddDanka;
