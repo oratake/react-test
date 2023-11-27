@@ -7,6 +7,7 @@ import {
   Burger,
   Group,
   Skeleton,
+  Table,
 } from '@mantine/core';
 import { RiAncientGateFill } from 'react-icons/ri';
 import { IconContext } from 'react-icons';
@@ -71,7 +72,7 @@ export default function Home() {
             ))}
         </AppShell.Navbar>
         <AppShell.Main>
-          Main
+          <h2>檀家一覧</h2>
           <UrqlProvider client={client} ssr={ssr}>
             <AddDanka />
             <Suspense>
@@ -95,12 +96,26 @@ export default function Home() {
 
 const TestList = () => {
   const [result] = useQuery({ query: allDankasQueryDocument });
+  const DankaTableRowList = result.data &&
+    result.data.dankaModels?.map((x: any) => (
+      x?.danka_uuid &&
+      <Table.Tr key={x.danka_uuid}>
+        <Table.Td>{x.danka_uuid}</Table.Td>
+        <Table.Td>
+          {x.last_name_of_family_head} {x.first_name_of_family_head}
+        </Table.Td>
+      </Table.Tr>
+    ));
+
   return (
-    result.data &&
-    <ul>
-      {result.data.dankaModels?.map((x: any) => (
-        x?.danka_uuid && <li key={x.danka_uuid}>{x.last_name_of_family_head} {x.first_name_of_family_head}</li>
-      ))}
-    </ul>
+    <Table>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>UUID(開発用)</Table.Th>
+          <Table.Th>名前</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>{DankaTableRowList}</Table.Tbody>
+    </Table>
   );
 };
